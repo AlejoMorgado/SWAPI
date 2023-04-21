@@ -39,16 +39,18 @@ const createCharacterDiv = (character, templateHTML) => {
 const newContainer = document.getElementById("container");
 
 const showCharacters = async (url) => {
-  console.log("showCharacters called with url:", url); 
-  const template = await fetchTemplate();
-  const data = await fetchCharacters(url);
+  const response = await fetch(url);
+  const data = await response.json();
+  const filteredResults = data.results.filter((character) => {
+    return character.name.toLowerCase().startsWith(searchInput.value.toLowerCase());
+  });
   newContainer.innerHTML = "";
-
-  data.results.forEach(character => {
+  const template = await fetchTemplate();
+  filteredResults.forEach(character => {
     const newDiv = createCharacterDiv(character, template);
     newContainer.appendChild(newDiv);
   });
-
+  const nextPage = filteredResults.next;
   const previousButton = document.createElement("button");
   previousButton.id = "previous";
   previousButton.textContent = "Previous characters ←";
@@ -61,7 +63,6 @@ const showCharacters = async (url) => {
   } else {
     previousButton.style.display = "none";
   }
-
   const nextButton = document.createElement("button");
   nextButton.id = "next";
   nextButton.textContent = "More characters →";
@@ -72,14 +73,16 @@ const showCharacters = async (url) => {
   if (data.next) {
     newContainer.appendChild(nextButton);
   }
-
 };
+
 const searchInput = document.getElementById("searchInput");
 searchInput.addEventListener("input", async () => {
-  const name = searchInput.value.toLowerCase();
-  const searchUrl = `https://swapi.dev/api/people/?search=${name}`;
-  await showCharacters(searchUrl);
+  const searchUrl = `https://swapi.dev/api/people/?search=`;
+  const results = await showCharacters(`${searchUrl}${searchInput.value.toLowerCase()}`);
+  console.log(results);
 });
-showCharacters("https://swapi.dev/api/people/").catch(error => {
+
+showCharacters("https://swapi.dev/api/people/")
+.catch(error => {
   console.error("Error:", error);
-})
+});
