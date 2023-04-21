@@ -33,7 +33,6 @@ h2 {
   font-weight: bolder;
   color: #ffe81f;
   font-size: x-large;
-  /* font-family: 'Star Jedi', arial */
   font-family: "Star Jedi", arial;
 }
 
@@ -67,7 +66,7 @@ p {
   font-size: 16px;
   color: #ffe91f98;
 }
-#containerBackground > #search{
+#containerBackground > #search {
   float: left;
 }
 #containerBackground {
