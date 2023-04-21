@@ -1,0 +1,112 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-image: url(./images/background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+button {
+  color: #ffe81f;
+  background-color: rgba(8, 31, 54, 0.5);
+  font-family: "Dela Gothic One", cursive;
+  height: 25%;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+h1 {
+  color: #ffe81f;
+  font-family: "Dela Gothic One";
+  font-weight: lighter;
+  margin: 0;
+}
+h2 {
+  font-weight: bolder;
+  color: #ffe81f;
+  font-size: x-large;
+  /* font-family: 'Star Jedi', arial */
+  font-family: "Star Jedi", arial;
+}
+
+p {
+  font-family: "Dela Gothic One", cursive;
+  line-height: 1;
+  color: #fff;
+}
+#title {
+  width: 20%;
+}
+#topContent {
+  display: flex;
+  width: 30%;
+  align-self: flex-start;
+  margin-left: 50px;
+}
+#searchInput {
+  height: 40px;
+  width: 100%;
+  color: white;
+  background-color: rgba(8, 31, 54, 0.5);
+  font-family: "Dela Gothic One", cursive;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 10%;
+  cursor: pointer;
+  border: none;
+}
+::placeholder {
+  font-size: 16px;
+  color: #ffe91f98;
+}
+#containerBackground > #search{
+  float: left;
+}
+#containerBackground {
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(8, 31, 54, 0.5);
+}
+#container {
+  align-items: center;
+  padding: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  width: 100%;
+}
+#container > div {
+  height: 100%;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  border-radius: 10%;
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+  flex: 0 0 25%;
+  margin-right: 10px;
+}
+
+#container > div img {
+  /* padding: 5%; */
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: auto;
+  border-radius: 50%;
+}
+#container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
