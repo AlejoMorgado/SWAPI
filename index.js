@@ -1,85 +1,89 @@
-const container = document.createElement("div");
-container.id = "container";
-document.getElementById("containerBackground").appendChild(container);
+const characterContainer = document.createElement("div");
+characterContainer.id = "character-container";
+document.getElementById("container-background").appendChild(characterContainer);
 
-const fetchTemplate = async () => {
+
+const fetchCharacterTemplate = async () => {
   const response = await fetch("template.html");
   const templateHTML = await response.text();
   return templateHTML;
 };
 
-const fetchCharacters = async (url) => {
+
+const fetchStarWarsCharacters = async (url) => {
   const response = await fetch(url);
   const data = await response.json();
   return data;
 };
 
+
 const createCharacterDiv = (character, templateHTML) => {
-  const newDiv = document.createElement("div");
-  newDiv.id = "character";
-  newDiv.innerHTML = templateHTML;
-  newDiv.querySelector("#characterName").textContent = character.name;
-  newDiv.querySelector("#height").textContent = `Height: ${character.height}`;
-  newDiv.querySelector("#mass").textContent = `Mass: ${character.mass}`;
-  newDiv.querySelector("#gender").textContent = `Gender: ${character.gender}`;
-  newDiv.querySelector("#skinColor").textContent = `Skin color: ${character.skin_color}`;
-  newDiv.querySelector("#eyeColor").textContent = `Eye color: ${character.eye_color}`;
-  const img = document.createElement("img");
+  const newCharacterDiv = document.createElement("div");
+  newCharacterDiv.id = "character";
+  newCharacterDiv.innerHTML = templateHTML;
+  newCharacterDiv.querySelector("#character-name").textContent = character.name;
+  newCharacterDiv.querySelector("#height").textContent = `Height: ${character.height}`;
+  newCharacterDiv.querySelector("#mass").textContent = `Mass: ${character.mass}`;
+  newCharacterDiv.querySelector("#gender").textContent = `Gender: ${character.gender}`;
+  newCharacterDiv.querySelector("#skin-color").textContent = `Skin color: ${character.skin_color}`;
+  newCharacterDiv.querySelector("#eye-color").textContent = `Eye color: ${character.eye_color}`;
+  const characterImage = document.createElement("img");
   if (character.gender === "male") {
-    img.src = "./images/male.jpg";
+    characterImage.src = "./images/male.jpg";
   } else if (character.gender === "female") {
-    img.src = "./images/female.jpg";
+    characterImage.src = "./images/female.jpg";
   } else if (character.gender === "n/a" || character.gender === "none" || character.gender === "hermaphrodite") {
-    img.src = "./images/robot.jpg";
+    characterImage.src = "./images/robot.jpg";
   }
-  newDiv.appendChild(img);
-  return newDiv;
+  newCharacterDiv.appendChild(characterImage);
+  return newCharacterDiv;
 };
 
-const newContainer = document.getElementById("container");
 
-const showCharacters = async (url) => {
-  console.log("showCharacters called with url:", url); 
-  const template = await fetchTemplate();
-  const data = await fetchCharacters(url);
-  newContainer.innerHTML = "";
+const showStarWarsCharacters = async (url) => {
+  console.log("showStarWarsCharacters called with URL:", url);
+  const characterTemplate = await fetchCharacterTemplate();
+  const starWarsData = await fetchStarWarsCharacters(url);
+  characterContainer.innerHTML = "";
 
-  data.results.forEach(character => {
-    const newDiv = createCharacterDiv(character, template);
-    newContainer.appendChild(newDiv);
+  starWarsData.results.forEach(character => {
+    const newCharacterDiv = createCharacterDiv(character, characterTemplate);
+    characterContainer.appendChild(newCharacterDiv);
   });
 
   const previousButton = document.createElement("button");
-  previousButton.id = "previous";
+  previousButton.id = "previous-button";
   previousButton.textContent = "Previous characters ←";
   previousButton.addEventListener("click", async () => {
-    newContainer.innerHTML = "";
-    await showCharacters(data.previous);
+    characterContainer.innerHTML = "";
+    await showStarWarsCharacters(starWarsData.previous);
   });
-  if (data.previous) {
-    newContainer.insertBefore(previousButton, newContainer.firstChild);
+  if (starWarsData.previous) {
+    characterContainer.insertBefore(previousButton, characterContainer.firstChild);
   } else {
     previousButton.style.display = "none";
   }
 
   const nextButton = document.createElement("button");
-  nextButton.id = "next";
+  nextButton.id = "next-button";
   nextButton.textContent = "More characters →";
   nextButton.addEventListener("click", async () => {
-    newContainer.innerHTML = "";
-    await showCharacters(data.next);
+    characterContainer.innerHTML = "";
+    await showStarWarsCharacters(starWarsData.next);
   });
-  if (data.next) {
-    newContainer.appendChild(nextButton);
+  if (starWarsData.next) {
+    characterContainer.appendChild(nextButton);
   }
-
 };
-const searchInput = document.getElementById("searchInput");
+
+
+const searchInput = document.getElementById("search-input");
 searchInput.addEventListener("input", async () => {
-  const name = searchInput.value.toLowerCase();
-  const searchUrl = `https://swapi.dev/api/people/?search=${name}`;
-  await showCharacters(searchUrl);
+  const characterName = searchInput.value.toLowerCase();
+  const searchUrl = `https://swapi.dev/api/people/?search=${characterName}`;
+  await showStarWarsCharacters(searchUrl);
 });
+
 showCharacters("https://swapi.dev/api/people/").catch(error => {
   console.error("Error:", error);
 })
